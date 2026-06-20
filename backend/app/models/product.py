@@ -1,16 +1,15 @@
 from sqlalchemy import Column, Integer, String, Float
-
-from db.base import Base
+from app.db.database import Base
 
 
 class Product(Base):
     __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), nullable=False)
-    category = Column(String(50), nullable=False)
-    brand = Column(String(50))
-    size = Column(String(20))
-    color = Column(String(30))
-    quantity = Column(Integer, default=0)
-    price = Column(Float, nullable=False)
+    product_name = Column(String, nullable=False)
+    category = Column(String)
+    brand = Column(String)
+    size = Column(String)
+    color = Column(String)
+    price = Column(Float)
+    quantity = Column(Integer)
