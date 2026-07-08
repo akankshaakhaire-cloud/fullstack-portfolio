@@ -15,8 +15,22 @@ def create_product_service(db: Session, product: ProductCreate):
     return create_product(db, product)
 
 
-def get_all_products_service(db: Session):
-    return get_all_products(db)
+def get_all_products_service(
+    db: Session,
+    search: str = None,
+    page: int = 1,
+    limit: int = 10,
+    sort_by: str = "id",
+    order: str = "asc",
+):
+    return get_all_products(
+        db=db,
+        search=search,
+        page=page,
+        limit=limit,
+        sort_by=sort_by,
+        order=order,
+    )
 
 
 def get_product_by_id_service(db: Session, product_id: int):
