@@ -26,12 +26,17 @@ def create_product(db: Session, product: ProductCreate):
 def get_all_products(
     db: Session,
     search: str = None,
+    category: str = None,
+    brand: str = None,
+    color: str = None,
+    size: str = None,
+    min_price: float = None,
+    max_price: float = None,
     page: int = 1,
     limit: int = 10,
     sort_by: str = "id",
     order: str = "asc",
 ):
-
     query = db.query(Product)
 
     # Search
@@ -44,6 +49,28 @@ def get_all_products(
                 Product.color.ilike(f"%{search}%"),
             )
         )
+
+    # Filters
+    if category:
+        query = query.filter(Product.category.ilike(f"%{category}%"))
+
+    if brand:
+        query = query.filter(Product.brand.ilike(f"%{brand}%"))
+
+    if color:
+        query = query.filter(Product.color.ilike(f"%{color}%"))
+
+    if size:
+        query = query.filter(Product.size.ilike(f"%{size}%"))
+
+    if min_price is not None:
+        query = query.filter(Product.price >= min_price)
+
+    if max_price is not None:
+        query = query.filter(Product.price <= max_price)
+
+    # Total records before pagination
+    total = query.count()
 
     # Sorting
     allowed_sort_fields = [
@@ -68,7 +95,15 @@ def get_all_products(
     # Pagination
     offset = (page - 1) * limit
 
-    return query.offset(offset).limit(limit).all()
+    products = query.offset(offset).limit(limit).all()
+
+    return {
+        "total": total,
+        "page": page,
+        "limit": limit,
+        "total_pages": (total + limit - 1) // limit,
+        "data": products,
+    }
 
 
 def get_product_by_id(db: Session, product_id: int):
@@ -76,7 +111,6 @@ def get_product_by_id(db: Session, product_id: int):
 
 
 def update_product(db: Session, product_id: int, product: ProductUpdate):
-
     db_product = get_product_by_id(db, product_id)
 
     if not db_product:
@@ -94,7 +128,6 @@ def update_product(db: Session, product_id: int, product: ProductUpdate):
 
 
 def delete_product(db: Session, product_id: int):
-
     db_product = get_product_by_id(db, product_id)
 
     if not db_product:

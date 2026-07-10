@@ -1,30 +1,33 @@
 import time
 import logging
 
+from starlette.middleware.base import BaseHTTPMiddleware
 from fastapi import Request
 
-# Configure Logging
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(message)s"
+    format="%(asctime)s | %(levelname)s | %(message)s",
 )
 
 logger = logging.getLogger("cloth_inventory")
 
 
-async def log_requests(request: Request, call_next):
-    start_time = time.time()
+class LoggingMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next):
+        print("===== MIDDLEWARE EXECUTED =====")
 
-    response = await call_next(request)
+        start_time = time.time()
 
-    process_time = (time.time() - start_time) * 1000
+        response = await call_next(request)
 
-    logger.info(
-        "%s | %s | Status: %s | %.2f ms",
-        request.method,
-        request.url.path,
-        response.status_code,
-        process_time
-    )
+        process_time = (time.time() - start_time) * 1000
 
-    return response
+        logger.info(
+            "%s %s | Status: %s | %.2f ms",
+            request.method,
+            request.url.path,
+            response.status_code,
+            process_time,
+        )
+
+        return response

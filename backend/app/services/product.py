@@ -18,6 +18,12 @@ def create_product_service(db: Session, product: ProductCreate):
 def get_all_products_service(
     db: Session,
     search: str = None,
+    category: str = None,
+    brand: str = None,
+    color: str = None,
+    size: str = None,
+    min_price: float = None,
+    max_price: float = None,
     page: int = 1,
     limit: int = 10,
     sort_by: str = "id",
@@ -26,6 +32,12 @@ def get_all_products_service(
     return get_all_products(
         db=db,
         search=search,
+        category=category,
+        brand=brand,
+        color=color,
+        size=size,
+        min_price=min_price,
+        max_price=max_price,
         page=page,
         limit=limit,
         sort_by=sort_by,
@@ -37,7 +49,11 @@ def get_product_by_id_service(db: Session, product_id: int):
     return get_product_by_id(db, product_id)
 
 
-def update_product_service(db: Session, product_id: int, product: ProductUpdate):
+def update_product_service(
+    db: Session,
+    product_id: int,
+    product: ProductUpdate,
+):
     return update_product(db, product_id, product)
 
 

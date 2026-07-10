@@ -42,8 +42,18 @@ def create_product(
 @router.get("/", response_model=list[ProductResponse])
 def get_products(
     search: str | None = Query(default=None),
+
+    category: str | None = Query(default=None),
+    brand: str | None = Query(default=None),
+    color: str | None = Query(default=None),
+    size: str | None = Query(default=None),
+
+    min_price: float | None = Query(default=None, ge=0),
+    max_price: float | None = Query(default=None, ge=0),
+
     page: int = Query(default=1, ge=1),
     limit: int = Query(default=10, ge=1, le=100),
+
     sort_by: str = Query(default="id"),
     order: str = Query(default="asc"),
 
@@ -53,11 +63,18 @@ def get_products(
     return get_all_products_service(
         db=db,
         search=search,
+        category=category,
+        brand=brand,
+        color=color,
+        size=size,
+        min_price=min_price,
+        max_price=max_price,
         page=page,
         limit=limit,
         sort_by=sort_by,
         order=order,
     )
+
 
 # ======================================================
 # GET PRODUCT BY ID (Admin, Manager, Employee)
