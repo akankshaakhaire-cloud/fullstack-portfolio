@@ -6,15 +6,28 @@ from app.repositories.product_repository import (
     get_product_by_id,
     update_product,
     delete_product,
+    update_product_image,
 )
 
-from app.schemas.product import ProductCreate, ProductUpdate
+from app.schemas.product import (
+    ProductCreate,
+    ProductUpdate,
+)
 
 
-def create_product_service(db: Session, product: ProductCreate):
+# ======================================================
+# CREATE PRODUCT
+# ======================================================
+def create_product_service(
+    db: Session,
+    product: ProductCreate,
+):
     return create_product(db, product)
 
 
+# ======================================================
+# GET ALL PRODUCTS
+# ======================================================
 def get_all_products_service(
     db: Session,
     search: str = None,
@@ -45,17 +58,54 @@ def get_all_products_service(
     )
 
 
-def get_product_by_id_service(db: Session, product_id: int):
+# ======================================================
+# GET PRODUCT BY ID
+# ======================================================
+def get_product_by_id_service(
+    db: Session,
+    product_id: int,
+):
     return get_product_by_id(db, product_id)
 
 
+# ======================================================
+# UPDATE PRODUCT
+# ======================================================
 def update_product_service(
     db: Session,
     product_id: int,
     product: ProductUpdate,
 ):
-    return update_product(db, product_id, product)
+    return update_product(
+        db,
+        product_id,
+        product,
+    )
 
 
-def delete_product_service(db: Session, product_id: int):
-    return delete_product(db, product_id)
+# ======================================================
+# DELETE PRODUCT
+# ======================================================
+def delete_product_service(
+    db: Session,
+    product_id: int,
+):
+    return delete_product(
+        db,
+        product_id,
+    )
+
+
+# ======================================================
+# UPDATE PRODUCT IMAGE
+# ======================================================
+def update_product_image_service(
+    db: Session,
+    product_id: int,
+    image_url: str,
+):
+    return update_product_image(
+        db,
+        product_id,
+        image_url,
+    )

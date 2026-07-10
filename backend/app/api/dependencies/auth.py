@@ -1,32 +1,17 @@
-from fastapi import Depends, HTTPException, Header, status
+from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
 from app.repositories.user_repository import get_user_by_email
-from app.core.security import decode_access_token
+from app.core.security import decode_access_token, oauth2_scheme
 from app.models.user import User
 
 
 def get_current_user(
-    authorization: str = Header(None),
+    token: str = Depends(oauth2_scheme),
     db: Session = Depends(get_db)
 ):
     print("\n========== AUTH DEBUG ==========")
-    print("Authorization Header:", authorization)
-
-    if authorization is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authorization header missing"
-        )
-
-    if not authorization.startswith("Bearer "):
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authorization header"
-        )
-
-    token = authorization.replace("Bearer ", "")
     print("Token:", token)
 
     payload = decode_access_token(token)

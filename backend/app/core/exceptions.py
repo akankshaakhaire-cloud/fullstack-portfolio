@@ -1,3 +1,6 @@
+import traceback
+
+from fastapi.encoders import jsonable_encoder
 from fastapi import Request
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
@@ -17,15 +20,19 @@ async def http_exception_handler(request: Request, exc: StarletteHTTPException):
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=422,
-        content={
+        content=jsonable_encoder({
             "success": False,
             "message": "Validation Error",
             "errors": exc.errors()
-        }
+        })
     )
 
 
 async def generic_exception_handler(request: Request, exc: Exception):
+    print("\n========== UNHANDLED EXCEPTION ==========")
+    traceback.print_exception(type(exc), exc, exc.__traceback__)
+    print("========================================")
+
     return JSONResponse(
         status_code=500,
         content={

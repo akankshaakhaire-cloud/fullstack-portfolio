@@ -5,7 +5,13 @@ from app.models.product import Product
 from app.schemas.product import ProductCreate, ProductUpdate
 
 
-def create_product(db: Session, product: ProductCreate):
+# ======================================================
+# CREATE PRODUCT
+# ======================================================
+def create_product(
+    db: Session,
+    product: ProductCreate,
+):
     db_product = Product(
         product_name=product.product_name,
         category=product.category,
@@ -14,6 +20,7 @@ def create_product(db: Session, product: ProductCreate):
         color=product.color,
         price=product.price,
         quantity=product.quantity,
+        image_url=product.image_url,
     )
 
     db.add(db_product)
@@ -23,6 +30,9 @@ def create_product(db: Session, product: ProductCreate):
     return db_product
 
 
+# ======================================================
+# GET ALL PRODUCTS
+# ======================================================
 def get_all_products(
     db: Session,
     search: str = None,
@@ -39,7 +49,7 @@ def get_all_products(
 ):
     query = db.query(Product)
 
-    # Search
+    # ---------------- Search ----------------
     if search:
         query = query.filter(
             or_(
@@ -50,7 +60,7 @@ def get_all_products(
             )
         )
 
-    # Filters
+    # ---------------- Filters ----------------
     if category:
         query = query.filter(Product.category.ilike(f"%{category}%"))
 
@@ -69,10 +79,9 @@ def get_all_products(
     if max_price is not None:
         query = query.filter(Product.price <= max_price)
 
-    # Total records before pagination
     total = query.count()
 
-    # Sorting
+    # ---------------- Sorting ----------------
     allowed_sort_fields = [
         "id",
         "product_name",
@@ -92,7 +101,7 @@ def get_all_products(
     else:
         query = query.order_by(asc(column))
 
-    # Pagination
+    # ---------------- Pagination ----------------
     offset = (page - 1) * limit
 
     products = query.offset(offset).limit(limit).all()
@@ -106,11 +115,24 @@ def get_all_products(
     }
 
 
-def get_product_by_id(db: Session, product_id: int):
+# ======================================================
+# GET PRODUCT BY ID
+# ======================================================
+def get_product_by_id(
+    db: Session,
+    product_id: int,
+):
     return db.query(Product).filter(Product.id == product_id).first()
 
 
-def update_product(db: Session, product_id: int, product: ProductUpdate):
+# ======================================================
+# UPDATE PRODUCT
+# ======================================================
+def update_product(
+    db: Session,
+    product_id: int,
+    product: ProductUpdate,
+):
     db_product = get_product_by_id(db, product_id)
 
     if not db_product:
@@ -127,7 +149,13 @@ def update_product(db: Session, product_id: int, product: ProductUpdate):
     return db_product
 
 
-def delete_product(db: Session, product_id: int):
+# ======================================================
+# DELETE PRODUCT
+# ======================================================
+def delete_product(
+    db: Session,
+    product_id: int,
+):
     db_product = get_product_by_id(db, product_id)
 
     if not db_product:
@@ -137,3 +165,24 @@ def delete_product(db: Session, product_id: int):
     db.commit()
 
     return db_product
+
+
+# ======================================================
+# UPDATE PRODUCT IMAGE
+# ======================================================
+def update_product_image(
+    db: Session,
+    product_id: int,
+    image_url: str,
+):
+    product = get_product_by_id(db, product_id)
+
+    if not product:
+        return None
+
+    product.image_url = image_url
+
+    db.commit()
+    db.refresh(product)
+
+    return product

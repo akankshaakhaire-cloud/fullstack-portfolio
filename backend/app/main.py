@@ -1,6 +1,9 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
+
+import os
 
 from app.core.settings import APP_NAME, APP_VERSION
 from app.core.exceptions import (
@@ -16,39 +19,67 @@ from app.api.routers import user
 
 from app.db.database import Base, engine
 
-# Create Database Tables
+
+# ======================================================
+# CREATE REQUIRED DIRECTORIES
+# ======================================================
+os.makedirs("app/static/products", exist_ok=True)
+
+# ======================================================
+# CREATE DATABASE TABLES
+# ======================================================
 Base.metadata.create_all(bind=engine)
 
-# Create FastAPI App
+# ======================================================
+# CREATE FASTAPI APPLICATION
+# ======================================================
 app = FastAPI(
     title=APP_NAME,
-    version=APP_VERSION
+    version=APP_VERSION,
 )
 
-# Register Logging Middleware
+# ======================================================
+# REGISTER MIDDLEWARE
+# ======================================================
 app.add_middleware(LoggingMiddleware)
 
-# Register Exception Handlers
+# ======================================================
+# REGISTER EXCEPTION HANDLERS
+# ======================================================
 app.add_exception_handler(
     StarletteHTTPException,
-    http_exception_handler
+    http_exception_handler,
 )
 
 app.add_exception_handler(
     RequestValidationError,
-    validation_exception_handler
+    validation_exception_handler,
 )
 
 app.add_exception_handler(
     Exception,
-    generic_exception_handler
+    generic_exception_handler,
 )
 
-# Include Routers
+# ======================================================
+# STATIC FILES
+# ======================================================
+app.mount(
+    "/static",
+    StaticFiles(directory="app/static"),
+    name="static",
+)
+
+# ======================================================
+# ROUTERS
+# ======================================================
 app.include_router(product_router)
 app.include_router(user.router)
 
 
+# ======================================================
+# HOME
+# ======================================================
 @app.get("/")
 def home():
     return {
@@ -56,6 +87,9 @@ def home():
     }
 
 
+# ======================================================
+# HEALTH CHECK
+# ======================================================
 @app.get("/health")
 def health():
     return {

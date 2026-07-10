@@ -3,6 +3,9 @@ from typing import Optional
 from pydantic import BaseModel, Field, ConfigDict
 
 
+# ======================================================
+# BASE SCHEMA
+# ======================================================
 class ProductBase(BaseModel):
     product_name: str = Field(
         ...,
@@ -43,11 +46,22 @@ class ProductBase(BaseModel):
         description="Quantity cannot be negative"
     )
 
+    image_url: Optional[str] = Field(
+        default=None,
+        description="Product image URL"
+    )
 
+
+# ======================================================
+# CREATE SCHEMA
+# ======================================================
 class ProductCreate(ProductBase):
     pass
 
 
+# ======================================================
+# UPDATE SCHEMA
+# ======================================================
 class ProductUpdate(BaseModel):
     product_name: Optional[str] = Field(
         default=None,
@@ -85,10 +99,29 @@ class ProductUpdate(BaseModel):
         ge=0
     )
 
+    image_url: Optional[str] = Field(
+        default=None,
+        description="Product image URL"
+    )
 
+
+# ======================================================
+# RESPONSE SCHEMA
+# ======================================================
 class ProductResponse(ProductBase):
     id: int
 
     model_config = ConfigDict(
         from_attributes=True
     )
+
+
+# ======================================================
+# LIST RESPONSE SCHEMA
+# ======================================================
+class ProductListResponse(BaseModel):
+    total: int
+    page: int
+    limit: int
+    total_pages: int
+    data: list[ProductResponse]
