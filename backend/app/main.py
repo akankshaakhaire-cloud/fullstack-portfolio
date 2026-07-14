@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
@@ -16,6 +17,7 @@ from app.middleware.logging import LoggingMiddleware
 
 from app.api.routers import product_router
 from app.api.routers import user
+from app.api.routers import dashboard
 
 from app.db.database import Base, engine
 
@@ -36,6 +38,19 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(
     title=APP_NAME,
     version=APP_VERSION,
+)
+
+# ======================================================
+# CORS
+# ======================================================
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # ======================================================
@@ -75,6 +90,7 @@ app.mount(
 # ======================================================
 app.include_router(product_router)
 app.include_router(user.router)
+app.include_router(dashboard.router)
 
 
 # ======================================================
