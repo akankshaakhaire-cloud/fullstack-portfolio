@@ -47,7 +47,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "https://fullstack-portfolio-j1wnkthwo-akanksha12.vercel.app",
+        "https://fullstack-portfolio-ten-beige.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
