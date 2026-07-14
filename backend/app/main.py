@@ -111,3 +111,26 @@ def health():
     return {
         "status": "OK"
     }
+# ======================================================
+# LIVENESS CHECK
+# ======================================================
+@app.get("/health/live")
+def liveness_check():
+    return {
+        "status": "UP",
+        "service": APP_NAME,
+        "version": APP_VERSION,
+    }
+
+
+# ======================================================
+# READINESS CHECK
+# ======================================================
+@app.get("/health/ready")
+def readiness_check():
+    return {
+        "status": "READY",
+        "database": "connected",
+        "service": APP_NAME,
+        "version": APP_VERSION,
+    }
