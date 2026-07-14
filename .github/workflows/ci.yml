@@ -61,7 +61,8 @@ jobs:
           python -c "from app.main import app; print('FastAPI application loaded successfully')"
 
       - name: Build Backend Docker Image
-        run: docker build -t cloth-inventory-backend .  frontend:
+        run: docker build -t cloth-inventory-backend .  
+        frontend:
     name: Frontend CI
     runs-on: ubuntu-latest
 
