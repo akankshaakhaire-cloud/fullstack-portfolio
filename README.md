@@ -260,6 +260,40 @@ https://github.com/akankshaakhaire-cloud
 
 ---
 
+---
+
+# 📸 Application Screenshots
+
+## 🔐 Login Page
+
+![Login Page](screenshots/login.png)
+
+---
+
+## 📊 Dashboard
+
+![Dashboard](screenshots/dashboard.png)
+
+---
+
+## 📦 Products
+
+![Products](screenshots/products.png)
+
+---
+
+## ➕ Add Product
+
+![Add Product](screenshots/add-product.png)
+
+---
+
+## 📱 Mobile View
+
+![Mobile View](screenshots/mobile-view.png)
+
+---
+
 # 📄 License
 
 This project is intended for learning, portfolio, and demonstration purposes.
