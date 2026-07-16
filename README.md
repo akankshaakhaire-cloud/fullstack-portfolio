@@ -136,5 +136,131 @@ cloth-inventory/
                    │
               PostgreSQL DB
 ```
+---
 
+# ⚙️ Installation
+
+## Clone Repository
+
+```bash
+git clone https://github.com/akankshaakhaire-cloud/fullstack-portfolio.git
+```
+
+## Backend Setup
+
+```bash
+cd backend
+
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# Linux / Mac
+source venv/bin/activate
+
+pip install -r requirements.txt
+
+uvicorn app.main:app --reload
+```
+
+## Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+---
+
+# 🐳 Docker
+
+Run the application using Docker Compose.
+
+```bash
+docker compose up --build
+```
+
+---
+
+# 📡 API Endpoints
+
+## Authentication
+
+| Method | Endpoint |
+|--------|----------|
+| POST | /users/register |
+| POST | /users/login |
+| GET | /users/me |
+
+---
+
+## Products
+
+| Method | Endpoint |
+|--------|----------|
+| GET | /products |
+| GET | /products/{id} |
+| POST | /products |
+| PUT | /products/{id} |
+| DELETE | /products/{id} |
+
+---
+
+## Dashboard
+
+| Method | Endpoint |
+|--------|----------|
+| GET | /dashboard/stats |
+
+---
+
+# 📱 Responsive Design
+
+✔ Desktop
+
+✔ Tablet
+
+✔ Mobile
+
+---
+
+# 🚀 Deployment
+
+| Service | Platform |
+|---------|----------|
+| Frontend | Vercel |
+| Backend | Render |
+| Database | PostgreSQL |
+
+---
+
+# 📈 Future Enhancements
+
+- Barcode Scanner
+- Supplier Management
+- Sales Reports
+- Email Notifications
+- Dark Mode
+- Export Reports
+
+---
+
+# 👩‍💻 Developer
+
+**Akanksha Khaire**
+
+Senior Python Full Stack Developer
+
+GitHub:
+https://github.com/akankshaakhaire-cloud
+
+---
+
+# 📄 License
+
+This project is intended for learning, portfolio, and demonstration purposes.
 ---
