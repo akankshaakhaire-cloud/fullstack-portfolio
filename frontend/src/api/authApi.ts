@@ -4,6 +4,7 @@ import { API_BASE_URL } from "../utils/constants";
 
 const API_URL = API_BASE_URL;
 
+// Login
 export const loginUser = async (
   username: string,
   password: string
@@ -21,6 +22,20 @@ export const loginUser = async (
         "Content-Type": "application/x-www-form-urlencoded",
       },
     }
+  );
+
+  return response.data;
+};
+
+// Register
+export const registerUser = async (userData: {
+  username: string;
+  email: string;
+  password: string;
+}) => {
+  const response = await axios.post(
+    `${API_URL}/users/register`,
+    userData
   );
 
   return response.data;

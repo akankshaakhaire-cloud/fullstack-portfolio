@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { loginUser } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
@@ -52,6 +52,7 @@ function Login() {
           boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
         }}
       >
+        {/* Header */}
         <div
           style={{
             textAlign: "center",
@@ -86,6 +87,7 @@ function Login() {
           </p>
         </div>
 
+        {/* Login Form */}
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: "20px" }}>
             <label
@@ -163,6 +165,31 @@ function Login() {
           </button>
         </form>
 
+        {/* Register Link */}
+        <div
+          style={{
+            marginTop: "20px",
+            textAlign: "center",
+            fontSize: "15px",
+          }}
+        >
+          <span style={{ color: "#64748b" }}>
+            Don't have an account?{" "}
+          </span>
+
+          <Link
+            to="/register"
+            style={{
+              color: "#2563eb",
+              textDecoration: "none",
+              fontWeight: "bold",
+            }}
+          >
+            Create Account
+          </Link>
+        </div>
+
+        {/* Footer */}
         <p
           style={{
             marginTop: "25px",
