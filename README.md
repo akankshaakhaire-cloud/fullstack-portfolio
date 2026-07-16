@@ -74,4 +74,67 @@ The project follows industry-standard software architecture using FastAPI for ba
 - GitHub
 - Vercel
 - Render
-x`
+
+---
+
+# 🌐 Live Demo
+
+| Application | URL |
+|-------------|-----|
+| 🎨 Frontend | https://fullstack-portfolio-ten-beige.vercel.app |
+| ⚙️ Backend API | https://fullstack-portfolio-1-q26k.onrender.com |
+---
+
+# 📂 Project Structure
+
+```text
+cloth-inventory/
+│
+├── backend/
+│   ├── app/
+│   ├── api/
+│   ├── core/
+│   ├── db/
+│   ├── models/
+│   ├── repositories/
+│   ├── schemas/
+│   ├── services/
+│   └── main.py
+│
+├── frontend/
+│   ├── src/
+│   ├── api/
+│   ├── components/
+│   ├── layouts/
+│   ├── pages/
+│   ├── routes/
+│   ├── types/
+│   └── utils/
+│
+├── docker-compose.yml
+├── Dockerfile
+├── README.md
+└── nginx/
+```
+
+---
+
+# 🏗️ System Architecture
+
+```text
+                 User
+                   │
+                   ▼
+       React + TypeScript Frontend
+                   │
+            JWT Authentication
+                   │
+                   ▼
+            FastAPI REST APIs
+                   │
+         SQLAlchemy Repository
+                   │
+              PostgreSQL DB
+```
+
+---
