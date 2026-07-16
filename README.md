@@ -266,33 +266,23 @@ https://github.com/akankshaakhaire-cloud
 
 ## 🔐 Login Page
 
-![Login Page](screenshots/login.png)
-
----
+![Login Page](screenshots/login.jpg)
 
 ## 📊 Dashboard
 
 ![Dashboard](screenshots/dashboard.png)
 
----
-
 ## 📦 Products
 
 ![Products](screenshots/products.png)
-
----
 
 ## ➕ Add Product
 
 ![Add Product](screenshots/add-product.png)
 
----
-
 ## 📱 Mobile View
 
-![Mobile View](screenshots/mobile-view.png)
-
----
+![Mobile View](screenshots/mobile-view.jpg)---
 
 # 📄 License
 
