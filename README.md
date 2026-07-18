@@ -237,6 +237,38 @@ docker compose up --build
 | Database | PostgreSQL |
 
 ---
+## System Architecture
+## 🏗️ System Architecture
+
+```text
+                           User
+                             │
+                             ▼
+                 React + TypeScript Frontend
+                          (Vercel)
+                             │
+                    Axios + JWT Authentication
+                             │
+                             ▼
+                 FastAPI Backend (Render)
+                             │
+      ┌──────────────────────┼──────────────────────┐
+      │                      │                      │
+      ▼                      ▼                      ▼
+ Authentication API     Product API         Dashboard API
+     JWT + RBAC             CRUD              Analytics
+      │                      │                      │
+      └──────────────────────┼──────────────────────┘
+                             ▼
+                  Service Layer (Business Logic)
+                             ▼
+                  Repository / Database Layer
+                             ▼
+                     PostgreSQL (Neon DB)
+                             │
+                             ▼
+                    Product Images Storage
+---
 
 # 📈 Future Enhancements
 
