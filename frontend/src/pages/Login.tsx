@@ -4,32 +4,29 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginUser, getCurrentUser } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
-      // Login
       const response = await loginUser(email, password);
 
-      // Fetch logged-in user using access token
-      const user = await getCurrentUser(response.access_token);
+      const currentUser = await getCurrentUser(response.access_token);
 
-      // Save token + user
-      login(response.access_token, user);
+      login(response.access_token, currentUser);
 
       navigate("/dashboard", { replace: true });
     } catch (error: any) {
       console.error(error);
 
-      if (error.response) {
-        alert(error.response.data?.detail || "Invalid email or password");
+      if (error?.response?.data?.detail) {
+        alert(error.response.data.detail);
       } else {
         alert("Unable to connect to server.");
       }
@@ -40,10 +37,10 @@ function Login() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg, #2563eb, #1e3a8a)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        background: "linear-gradient(135deg, #2563eb, #1e3a8a)",
         padding: "20px",
       }}
     >
@@ -52,41 +49,19 @@ function Login() {
           width: "100%",
           maxWidth: "420px",
           background: "#fff",
-          borderRadius: "18px",
+          borderRadius: "16px",
           padding: "40px",
           boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
         }}
       >
-        <div
-          style={{
-            textAlign: "center",
-            marginBottom: "30px",
-          }}
-        >
-          <div
-            style={{
-              fontSize: "60px",
-              marginBottom: "10px",
-            }}
-          >
-            🧥
-          </div>
+        <div style={{ textAlign: "center", marginBottom: "30px" }}>
+          <div style={{ fontSize: "60px" }}>🧥</div>
 
-          <h1
-            style={{
-              margin: 0,
-              color: "#0f172a",
-            }}
-          >
+          <h1 style={{ margin: "10px 0", color: "#0f172a" }}>
             Cloth Inventory
           </h1>
 
-          <p
-            style={{
-              color: "#64748b",
-              marginTop: "10px",
-            }}
-          >
+          <p style={{ color: "#64748b" }}>
             Welcome back! Please login to continue.
           </p>
         </div>
@@ -97,8 +72,7 @@ function Login() {
               style={{
                 display: "block",
                 marginBottom: "8px",
-                fontWeight: "bold",
-                color: "#334155",
+                fontWeight: 600,
               }}
             >
               Email
@@ -106,16 +80,15 @@ function Login() {
 
             <input
               type="email"
-              placeholder="Enter your email"
               value={email}
+              placeholder="Enter your email"
               onChange={(e) => setEmail(e.target.value)}
               required
               style={{
                 width: "100%",
                 padding: "12px",
-                borderRadius: "10px",
+                borderRadius: "8px",
                 border: "1px solid #cbd5e1",
-                fontSize: "15px",
                 boxSizing: "border-box",
               }}
             />
@@ -126,8 +99,7 @@ function Login() {
               style={{
                 display: "block",
                 marginBottom: "8px",
-                fontWeight: "bold",
-                color: "#334155",
+                fontWeight: 600,
               }}
             >
               Password
@@ -135,16 +107,15 @@ function Login() {
 
             <input
               type="password"
-              placeholder="Enter your password"
               value={password}
+              placeholder="Enter your password"
               onChange={(e) => setPassword(e.target.value)}
               required
               style={{
                 width: "100%",
                 padding: "12px",
-                borderRadius: "10px",
+                borderRadius: "8px",
                 border: "1px solid #cbd5e1",
-                fontSize: "15px",
                 boxSizing: "border-box",
               }}
             />
@@ -155,13 +126,12 @@ function Login() {
             style={{
               width: "100%",
               padding: "14px",
+              border: "none",
+              borderRadius: "8px",
               background: "#2563eb",
               color: "#fff",
-              border: "none",
-              borderRadius: "10px",
-              cursor: "pointer",
               fontWeight: "bold",
-              fontSize: "16px",
+              cursor: "pointer",
             }}
           >
             🔐 Login
@@ -172,12 +142,9 @@ function Login() {
           style={{
             marginTop: "20px",
             textAlign: "center",
-            fontSize: "15px",
           }}
         >
-          <span style={{ color: "#64748b" }}>
-            Don't have an account?{" "}
-          </span>
+          <span>Don't have an account? </span>
 
           <Link
             to="/register"
@@ -187,7 +154,7 @@ function Login() {
               fontWeight: "bold",
             }}
           >
-            Create Account
+            Register
           </Link>
         </div>
 
@@ -196,7 +163,6 @@ function Login() {
             marginTop: "25px",
             textAlign: "center",
             color: "#64748b",
-            fontSize: "14px",
           }}
         >
           Cloth Inventory Management System
@@ -204,6 +170,6 @@ function Login() {
       </div>
     </div>
   );
-}
+};
 
 export default Login;

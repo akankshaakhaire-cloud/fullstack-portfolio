@@ -5,6 +5,12 @@ const MainLayout = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
 
+  const role = user?.role?.toLowerCase() ?? "";
+
+  const isAdmin = role === "admin";
+  const isManager = role === "manager";
+  const isEmployee = role === "employee";
+
   const handleLogout = () => {
     logout();
     navigate("/login", { replace: true });
@@ -65,13 +71,32 @@ const MainLayout = () => {
             📦 Products
           </NavLink>
 
-          <NavLink to="/users" style={menuStyle}>
-            👥 Users
-          </NavLink>
+          {/* Admin Only */}
+          {isAdmin && (
+            <>
+              <NavLink to="/users" style={menuStyle}>
+                👥 Users
+              </NavLink>
 
-          <NavLink to="/settings" style={menuStyle}>
-            ⚙️ Settings
-          </NavLink>
+              <NavLink to="/settings" style={menuStyle}>
+                ⚙️ Settings
+              </NavLink>
+            </>
+          )}
+
+          {/* Manager */}
+          {isManager && (
+            <>
+              {/* Future Manager Menu */}
+            </>
+          )}
+
+          {/* Employee */}
+          {isEmployee && (
+            <>
+              {/* Future Employee Menu */}
+            </>
+          )}
         </nav>
 
         <button
@@ -92,7 +117,7 @@ const MainLayout = () => {
         </button>
       </aside>
 
-      {/* Main Section */}
+      {/* Main Content */}
       <div
         style={{
           flex: 1,
@@ -100,15 +125,15 @@ const MainLayout = () => {
           flexDirection: "column",
         }}
       >
-        {/* Navbar */}
+        {/* Header */}
         <header
           style={{
             height: "70px",
             background: "#ffffff",
             borderBottom: "1px solid #e2e8f0",
             display: "flex",
-            alignItems: "center",
             justifyContent: "space-between",
+            alignItems: "center",
             padding: "0 30px",
             boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
           }}
@@ -131,10 +156,22 @@ const MainLayout = () => {
             }}
           >
             👤 {user?.username ?? "User"}
+            <span
+              style={{
+                background: "#2563eb",
+                color: "#fff",
+                padding: "4px 10px",
+                borderRadius: "20px",
+                fontSize: "12px",
+                textTransform: "capitalize",
+              }}
+            >
+              {user?.role ?? "Employee"}
+            </span>
           </div>
         </header>
 
-        {/* Content */}
+        {/* Page Content */}
         <main
           style={{
             flex: 1,
