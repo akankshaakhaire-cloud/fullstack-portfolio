@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { registerUser, loginUser } from "../api/authApi";
+import {
+  registerUser,
+  loginUser,
+  getCurrentUser,
+} from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
 
 function Register() {
@@ -42,7 +46,11 @@ function Register() {
       // Auto Login
       const response = await loginUser(email, password);
 
-      login(response.access_token);
+      // Get Logged In User
+      const user = await getCurrentUser(response.access_token);
+
+      // Save Token + User
+      login(response.access_token, user);
 
       alert("Registration Successful!");
 
@@ -103,7 +111,8 @@ function Register() {
           </p>
         </div>
 
-        <form onSubmit={handleRegister}>          <div style={{ marginBottom: "18px" }}>
+        <form onSubmit={handleRegister}>
+          <div style={{ marginBottom: "18px" }}>
             <label style={{ fontWeight: "bold" }}>Username</label>
 
             <input
