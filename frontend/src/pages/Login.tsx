@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import { loginUser } from "../api/authApi";
+import { loginUser, getCurrentUser } from "../api/authApi";
 import { useAuth } from "../context/AuthContext";
 
 function Login() {
@@ -15,16 +15,21 @@ function Login() {
     e.preventDefault();
 
     try {
+      // Login
       const response = await loginUser(email, password);
 
-      login(response.access_token);
+      // Fetch logged-in user using access token
+      const user = await getCurrentUser(response.access_token);
+
+      // Save token + user
+      login(response.access_token, user);
 
       navigate("/dashboard", { replace: true });
     } catch (error: any) {
       console.error(error);
 
       if (error.response) {
-        alert(error.response.data?.message || "Invalid email or password");
+        alert(error.response.data?.detail || "Invalid email or password");
       } else {
         alert("Unable to connect to server.");
       }
@@ -52,7 +57,6 @@ function Login() {
           boxShadow: "0 15px 40px rgba(0,0,0,0.2)",
         }}
       >
-        {/* Header */}
         <div
           style={{
             textAlign: "center",
@@ -87,7 +91,6 @@ function Login() {
           </p>
         </div>
 
-        {/* Login Form */}
         <form onSubmit={handleLogin}>
           <div style={{ marginBottom: "20px" }}>
             <label
@@ -165,7 +168,6 @@ function Login() {
           </button>
         </form>
 
-        {/* Register Link */}
         <div
           style={{
             marginTop: "20px",
@@ -189,7 +191,6 @@ function Login() {
           </Link>
         </div>
 
-        {/* Footer */}
         <p
           style={{
             marginTop: "25px",

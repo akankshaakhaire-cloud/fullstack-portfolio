@@ -1,6 +1,15 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const MainLayout = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login", { replace: true });
+  };
+
   const menuStyle = ({ isActive }: { isActive: boolean }) => ({
     display: "block",
     padding: "12px 15px",
@@ -66,6 +75,7 @@ const MainLayout = () => {
         </nav>
 
         <button
+          onClick={handleLogout}
           style={{
             width: "100%",
             marginTop: "40px",
@@ -120,7 +130,7 @@ const MainLayout = () => {
               fontWeight: "bold",
             }}
           >
-            👤 Akanksha
+            👤 {user?.username ?? "User"}
           </div>
         </header>
 

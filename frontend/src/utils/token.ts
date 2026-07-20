@@ -8,4 +8,23 @@ export const setToken = (token: string): void => {
 
 export const removeToken = (): void => {
   localStorage.removeItem("token");
+  localStorage.removeItem("user");
+};
+
+// --------------------
+// User Storage
+// --------------------
+
+export const setUser = (user: any): void => {
+  localStorage.setItem("user", JSON.stringify(user));
+};
+
+export const getUser = () => {
+  const user = localStorage.getItem("user");
+
+  return user ? JSON.parse(user) : null;
+};
+
+export const removeUser = (): void => {
+  localStorage.removeItem("user");
 };

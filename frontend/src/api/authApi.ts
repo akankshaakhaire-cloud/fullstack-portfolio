@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { LoginResponse } from "../types/auth";
+import type { LoginResponse, AuthUser } from "../types/auth";
 import { API_BASE_URL } from "../utils/constants";
 
 const API_URL = API_BASE_URL;
@@ -36,6 +36,22 @@ export const registerUser = async (userData: {
   const response = await axios.post(
     `${API_URL}/users/register`,
     userData
+  );
+
+  return response.data;
+};
+
+// Get Logged-in User
+export const getCurrentUser = async (
+  token: string
+): Promise<AuthUser> => {
+  const response = await axios.get<AuthUser>(
+    `${API_URL}/users/me`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
   );
 
   return response.data;
