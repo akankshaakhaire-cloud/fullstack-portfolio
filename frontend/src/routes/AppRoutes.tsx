@@ -10,16 +10,46 @@ import NotFound from "../pages/NotFound";
 
 import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "./ProtectedRoute";
+import { useAuth } from "../context/AuthContext";
 
 function AppRoutes() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <Routes>
       {/* Default Route */}
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route
+        path="/"
+        element={
+          <Navigate
+            to={isAuthenticated ? "/dashboard" : "/login"}
+            replace
+          />
+        }
+      />
 
       {/* Public Routes */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route
+        path="/login"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <Login />
+          )
+        }
+      />
+
+      <Route
+        path="/register"
+        element={
+          isAuthenticated ? (
+            <Navigate to="/dashboard" replace />
+          ) : (
+            <Register />
+          )
+        }
+      />
 
       {/* Protected Routes */}
       <Route element={<ProtectedRoute />}>
