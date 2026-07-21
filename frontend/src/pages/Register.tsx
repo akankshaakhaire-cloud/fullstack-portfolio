@@ -17,6 +17,9 @@ function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // NEW
+  const [role, setRole] = useState("employee");
+
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async (
@@ -24,7 +27,12 @@ function Register() {
   ) => {
     e.preventDefault();
 
-    if (!username || !email || !password || !confirmPassword) {
+    if (
+      !username ||
+      !email ||
+      !password ||
+      !confirmPassword
+    ) {
       alert("Please fill all fields.");
       return;
     }
@@ -41,25 +49,36 @@ function Register() {
         username,
         email,
         password,
+        role,
       });
 
       // Auto Login
-      const response = await loginUser(email, password);
+      const response = await loginUser(
+        email,
+        password
+      );
 
-      // Get Logged In User
-      const user = await getCurrentUser(response.access_token);
+      // Get Logged-in User
+      const user = await getCurrentUser(
+        response.access_token
+      );
 
       // Save Token + User
       login(response.access_token, user);
 
       alert("Registration Successful!");
 
-      navigate("/dashboard", { replace: true });
+      navigate("/dashboard", {
+        replace: true,
+      });
     } catch (error: any) {
       console.error(error);
 
       if (error.response) {
-        alert(error.response.data?.detail || "Registration Failed");
+        alert(
+          error.response.data?.detail ||
+            "Registration Failed"
+        );
       } else {
         alert("Unable to connect to server.");
       }
@@ -72,7 +91,8 @@ function Register() {
     <div
       style={{
         minHeight: "100vh",
-        background: "linear-gradient(135deg,#2563eb,#1e3a8a)",
+        background:
+          "linear-gradient(135deg,#2563eb,#1e3a8a)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -86,7 +106,8 @@ function Register() {
           background: "#fff",
           borderRadius: "18px",
           padding: "40px",
-          boxShadow: "0 15px 40px rgba(0,0,0,.2)",
+          boxShadow:
+            "0 15px 40px rgba(0,0,0,.2)",
         }}
       >
         <div
@@ -111,47 +132,58 @@ function Register() {
           </p>
         </div>
 
-        <form onSubmit={handleRegister}>
-          <div style={{ marginBottom: "18px" }}>
-            <label style={{ fontWeight: "bold" }}>Username</label>
+        <form onSubmit={handleRegister}>          <div style={{ marginBottom: "18px" }}>
+            <label style={{ fontWeight: "bold" }}>
+              Username
+            </label>
 
             <input
               type="text"
               className="form-control"
               placeholder="Enter username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) =>
+                setUsername(e.target.value)
+              }
               required
             />
           </div>
 
           <div style={{ marginBottom: "18px" }}>
-            <label style={{ fontWeight: "bold" }}>Email</label>
+            <label style={{ fontWeight: "bold" }}>
+              Email
+            </label>
 
             <input
               type="email"
               className="form-control"
               placeholder="Enter your email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
               required
             />
           </div>
 
           <div style={{ marginBottom: "18px" }}>
-            <label style={{ fontWeight: "bold" }}>Password</label>
+            <label style={{ fontWeight: "bold" }}>
+              Password
+            </label>
 
             <input
               type="password"
               className="form-control"
               placeholder="Enter password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) =>
+                setPassword(e.target.value)
+              }
               required
             />
           </div>
 
-          <div style={{ marginBottom: "25px" }}>
+          <div style={{ marginBottom: "18px" }}>
             <label style={{ fontWeight: "bold" }}>
               Confirm Password
             </label>
@@ -161,9 +193,38 @@ function Register() {
               className="form-control"
               placeholder="Confirm password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) =>
+                setConfirmPassword(e.target.value)
+              }
               required
             />
+          </div>
+
+          {/* Role */}
+          <div style={{ marginBottom: "25px" }}>
+            <label style={{ fontWeight: "bold" }}>
+              Role
+            </label>
+
+            <select
+              className="form-select"
+              value={role}
+              onChange={(e) =>
+                setRole(e.target.value)
+              }
+            >
+              <option value="admin">
+                Admin
+              </option>
+
+              <option value="manager">
+                Manager
+              </option>
+
+              <option value="employee">
+                Employee
+              </option>
+            </select>
           </div>
 
           <button
@@ -171,7 +232,9 @@ function Register() {
             className="btn btn-success w-100"
             disabled={loading}
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {loading
+              ? "Creating Account..."
+              : "Create Account"}
           </button>
         </form>
 
